@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Upload Excel or CVS";
+}
+
+<div>
+	@using (Html.BeginForm("Index","Home",FormMethod.Post,new {enctype = "multipart/form-data" }))
+	{
+		@Html.Raw(ViewBag.Error)
+		<span>Excel File </span>
+		<input type="file" name="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+		<input type="submit" value="Import"/>
+	}
+	@if (ViewBag.success != null)
+	{
+		<h3 style="color:red">
+			@ViewBag.success
+		</h3>
+	}
+</div>
