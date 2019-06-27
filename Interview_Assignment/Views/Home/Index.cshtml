@@ -9,7 +9,7 @@
 		<h2>CSV Upload Only </h2>
 		<h4 style="color:green">*First line of CSV file should be header</h4>
 		<h4 style="color:green">*Separator should be Comma (',') </h4>
-		<input type="file" name="file" accept=".csv" />
+		<input type="file" name="file" accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
 		<input type="submit" value="Import" />
 	}
 	@if (ViewBag.success != null)

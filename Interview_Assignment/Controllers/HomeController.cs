@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data.OleDb;
+using ExcelDataReader;
 
 namespace Interview_Assignment.Controllers
 {
@@ -24,7 +24,8 @@ namespace Interview_Assignment.Controllers
 			ViewBag.success = null;
 			try
 			{
-				if (file.ContentLength <= 0)
+				// check file is existed or not
+				if (file == null || file.ContentLength <= 0)
 				{
 					ViewBag.error = "Please Select the Excel or CVS  file";
 				}
@@ -32,26 +33,27 @@ namespace Interview_Assignment.Controllers
 				{
 					string[] validFileTypes = { ".xls", ".xlsx", ".csv" };
 					string extension = System.IO.Path.GetExtension(file.FileName);
+
+					// check file extension is csv, xls, xlsx
 					if (validFileTypes.Contains(extension))
 					{
+						// store file in local system
 						string pathFile = string.Format("{0}/{1}", Server.MapPath("~/Content/Uploads"), file.FileName);
 						Boolean result = false;
+						// remove existed file before create new one
 						if (System.IO.File.Exists(pathFile))
 						{
 							System.IO.File.Delete(pathFile);
 						}
 						file.SaveAs(pathFile);
+						//convert CSV file to JSON and get result is True if  convert success
 						if (extension == ".csv")
 						{
 							result = ConvertCSVToJSON(pathFile, Server.MapPath("~/Content/Uploads"), file.FileName);
 						}
-						else if (extension.Trim() == ".xls")
-						{
-							ConvertXLSToJSON(pathFile);
-						}
 						else
 						{
-							ConvertXLSXToJSON(pathFile);
+							result = ConvertXLSXToJSON(pathFile, Server.MapPath("~/Content/Uploads"), file.FileName);
 						}
 
 						if (result)
@@ -73,13 +75,13 @@ namespace Interview_Assignment.Controllers
 		{
 			using (StreamReader sr = new StreamReader(pathFile))
 			{
-				List<Dictionary<string,string>> fileList = new List<Dictionary<string, string>>();
+				List<Dictionary<object, object>> fileList = new List<Dictionary<object, object>>();
 				string[] headerArray = sr.ReadLine().Split(',');
 				
 				while (!sr.EndOfStream)
 				{
 					string[] line = sr.ReadLine().Split(',');
-					Dictionary<string, string> dict = new Dictionary<string, string>();
+					Dictionary<object, object> dict = new Dictionary<object, object>();
 					for (int i = 0; i < headerArray.Length; i++)
 					{
 						if (line.Length <= i)
@@ -98,41 +100,44 @@ namespace Interview_Assignment.Controllers
 			}
 		}
 
-		private void ConvertXLSToJSON(string pathFile)
+		private Boolean ConvertXLSXToJSON(string pathFile, string pathFolder, string fileName)
 		{
-			string connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + pathFile + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-			OleDbConnection oleDbConnection = new OleDbConnection(connString);
-			try
+			using (var stream = System.IO.File.Open(pathFile, FileMode.Open, FileAccess.Read))
 			{
-				oleDbConnection.Open();
-				using (OleDbCommand cmd = new OleDbCommand())
+				using (var reader = ExcelReaderFactory.CreateReader(stream))
 				{
-
+					var dataset = reader.AsDataSet();
+					var table = dataset.Tables[0];
+					System.Data.DataColumnCollection columns = table.Columns;
+					object[] headerArray =  table.Rows[0].ItemArray;
+					
+					List<Dictionary<object, object>> fileList = new List<Dictionary<object, object>>();
+					for(int rowIndex = 1; rowIndex < table.Rows.Count;rowIndex++)
+					{
+						object[] line = table.Rows[rowIndex].ItemArray;
+						Dictionary<object, object> dict = new Dictionary<object, object>();
+						for (int i = 0; i < headerArray.Length; i++)
+						{
+							if (line.Length <= i)
+							{
+								dict.Add(headerArray[i], null);
+							}
+							else
+							{
+								dict.Add(headerArray[i], line[i]);
+							}
+						}
+						fileList.Add(dict);
+					}
+					
+					reader.Close();
+					return SaveAsJson(fileList, pathFolder, fileName);
 				}
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e);
-			}
-			finally
-			{
-				oleDbConnection.Close();
-			}
-		}
 
-		private void ConvertXLSXToJSON(string pathFile)
-		{
-			//Excel.Application application = new Excel.Application();
-			//Excel.Workbook workbook = application.Workbooks.Open(pathFile);
-			//Excel.Worksheet worksheet = workbook.ActiveSheet;
-			//Excel.Range range = worksheet.UsedRange;
-			//foreach (var a in range)
-			//{
-			//	Console.WriteLine(a);
-			//}
+			}
 
 		}
-		private Boolean SaveAsJson(List<Dictionary<string, string>> fileList, string pathFolder, string fileName)
+		private Boolean SaveAsJson(List<Dictionary<object, object>> fileList, string pathFolder, string fileName)
 		{
 			try
 			{

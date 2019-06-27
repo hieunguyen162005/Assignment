@@ -91,3 +91,9 @@ C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interv
 C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\obj\Debug\Interview_Assignment.pdb
 C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\System.Data.OleDb.dll
 C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\System.Data.OleDb.xml
+C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\ExcelDataReader.dll
+C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\ExcelDataReader.pdb
+C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\ExcelDataReader.xml
+C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\ExcelDataReader.DataSet.dll
+C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\ExcelDataReader.DataSet.pdb
+C:\Users\nganh\Documents\Visual Studio 2017\Projects\Interview_Assignment\Interview_Assignment\bin\ExcelDataReader.DataSet.xml
