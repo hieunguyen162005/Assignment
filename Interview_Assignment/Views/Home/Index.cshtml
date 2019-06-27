@@ -6,7 +6,7 @@
 	@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 	{
 		@Html.Raw(ViewBag.Error)
-		<h2>CSV Upload Only </h2>
+		<h2>CSV ,EXCEL Upload Only </h2>
 		<h4 style="color:green">*First line of CSV, EXCEL file should be header</h4>
 		<h4 style="color:green">*Separator of CSV should be Comma (',') </h4>
 		<h4 style="color:green">*The format of JSON will be :</h4>
