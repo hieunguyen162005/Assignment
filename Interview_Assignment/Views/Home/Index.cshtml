@@ -5,7 +5,7 @@
 <div style="margin-top:100px">
 	@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 	{
-		@Html.Raw(ViewBag.Error)
+		<h4 style="color:red">@Html.Raw(ViewBag.Error)</h4>
 		<h2>CSV ,EXCEL Upload Only </h2>
 		<h4 style="color:green">*First line of CSV, EXCEL file should be header</h4>
 		<h4 style="color:green">*Separator of CSV should be Comma (',') </h4>
