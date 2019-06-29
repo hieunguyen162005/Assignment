@@ -2,7 +2,7 @@
     ViewBag.Title = "Upload Excel or CVS";
 }
 
-<div style="margin-top:100px">
+<div style="margin-top:50px">
 	@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 	{
 		<h4 style="color:red">@Html.Raw(ViewBag.Error)</h4>
