@@ -8,7 +8,10 @@
 
 	public class HomeController : Controller
 	{
-		
+		/// <summary>
+		/// GET method for Home/Index
+		/// </summary>
+		/// <returns>Return to view Home/Index </returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
