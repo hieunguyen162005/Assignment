@@ -68,6 +68,7 @@
 						if (result)
 						{
 							ViewBag.success = "Successful upload files! The file will be stored in \" ~/Content ";
+							ViewBag.error = null;
 						}
 					}
 					else
