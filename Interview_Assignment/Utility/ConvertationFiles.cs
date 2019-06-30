@@ -1,11 +1,11 @@
 ﻿namespace Interview_Assignment.Utility
 {
-	using ExcelDataReader;
-	using Newtonsoft.Json;
 	using System;
 	using System.Collections.Generic;
 	using System.Data;
 	using System.IO;
+	using ExcelDataReader;
+	using Newtonsoft.Json;
 
 	/// <summary>
 	/// Convert files to other files
@@ -131,7 +131,7 @@
 		/// <param name="pathconvertedFolder"> The path of folder for converted file</param>
 		/// <param name="jsonFileName"> the Json file name</param>
 		/// <returns>return True if convertation is successful</returns>
-		private bool SaveAsJson(List<Dictionary<object, object>> list, string pathconvertedFolder, string jsonFileName)
+		public bool SaveAsJson(List<Dictionary<object, object>> list, string pathconvertedFolder, string jsonFileName)
 		{
 			try
 			{
